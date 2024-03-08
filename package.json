@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/thomasghobril/archiapp-microservices/issues"
   },
-  "homepage": "https://github.com/thomasghobril/archiapp-microservices#readme"
+  "homepage": "https://github.com/thomasghobril/archiapp-microservices#readme",
+  "dependencies": {
+    "express": "^4.18.3"
+  }
 }
