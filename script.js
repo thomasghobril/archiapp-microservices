@@ -1,5 +1,5 @@
 function fact(n) {
-    result = 1;
+    var result = 1;
 
     while (n > 0) {
         result *= n--;
@@ -12,7 +12,7 @@ console.log(fact(10));
 
 function applique(f, tab) {
     // return tab.map(f);
-    res = [];
+    var res = [];
     tab.forEach(x => {
         res.push(f(x));
     });
@@ -22,7 +22,7 @@ function applique(f, tab) {
 console.log(applique(fact,[1, 2, 3, 4, 5]));
 console.log(applique(x => x + 1, [1, 2, 3, 4, 5]));
 
-msgs = [
+var msgs = [
     { "msg" : "Hello World" },
     { "msg" : "Blah Blah" },
     { "msg" : "I love cats" }
