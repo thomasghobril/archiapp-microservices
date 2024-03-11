@@ -14,6 +14,30 @@ app.get('/test/*', function(req, res) {
     res.json({"msg": msg.substring(msg.indexOf('/')+1)});
 });
 
+mydata = {
+    name: "counter",
+    value: 0
+}
+
+app.get('/cpt/inc', function(req, res) {
+    if ('v' in req.query) {
+        // check if the value is a number
+        if (!isNaN(req.query.v)) {
+            mydata.value+=parseInt(req.query.v);
+            res.json({"code": 0});
+        } else {
+            res.json({"code": -1});
+        }
+    } else {
+        ++mydata.value;
+        res.json({"code": 0});
+    }
+});
+
+app.get('/cpt/query', function(req, res) {
+    res.json(mydata);
+});
+
 // Start the server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
