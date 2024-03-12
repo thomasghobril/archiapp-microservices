@@ -1,5 +1,6 @@
 // Import the Express module
 const express = require('express');
+const bodyParser = require('body-parser')
 
 // Create an instance of the Express application
 const app = express();
@@ -9,17 +10,19 @@ app.use(function(_, res, next) {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: false }))
 
 var allMsgs = ["Hello World", "foobar", "CentraleSupelec Forever"];
 
 app.post('/msg/post', function (req, res) {
-    const body = req.body.json();
+    const body = req.body;
 
-    if (body.content == "") {
+    if (body["content"] == "") {
         res.json({code: 0, detail: "Error: empty message"});
     }
 
-    allMsgs.push(body.content);
+    allMsgs.push(body["content"]);
     res.json({code: 1});
 });
 
