@@ -41,7 +41,7 @@ function main() {
             }
             msgs.map(msg => {
                 const li = document.createElement('li');
-                li.innerHTML = "<div><h6>"+msg[1]+"</h6>"+msg[0]+"</div>";
+                li.innerHTML = "<div><h6>"+msg.date+"</h6>"+msg.message+"</div>";
                 ul.appendChild(li);
             });
         });
