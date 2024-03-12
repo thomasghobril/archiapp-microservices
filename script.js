@@ -30,18 +30,38 @@ function update() {
     .then(function(data) {
         return data.allMsgs;
     }).then(function(msgs) {
-            const ul = document.getElementById('messages');
-            while (ul.firstChild) {
-                ul.removeChild(ul.firstChild);
-            }
-            applique(msg => {
-                const li = document.createElement('li');
-                li.textContent = msg;
-                ul.appendChild(li);
-            }, msgs);
+        const ul = document.getElementById('messages');
+        while (ul.firstChild) {
+            ul.removeChild(ul.firstChild);
         }
-    );
+        applique(msg => {
+            const li = document.createElement('li');
+            li.textContent = msg;
+            ul.appendChild(li);
+        }, msgs);
+    });
 }
 
-const button = document.getElementById('send');
-button.onclick = update;
+window.onload = update;
+
+const updateButton = document.getElementById('update');
+updateButton.onclick = update;
+
+function send() {
+    var ta = document.getElementById('messageInput')
+    fetch('http://localhost:3003/msg/post/'+ta.value)
+    .then(function(response) {
+        return response.json();
+    })
+    .then(function(data) {
+        if (data["code"] == "1") {
+            ta.value = "";
+            update();
+        } else {
+            alert("Le message n'a pas pu être envoyé!");
+        }
+    });
+}
+
+const sendButton = document.getElementById('send');
+sendButton.onclick = send;
