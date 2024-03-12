@@ -27,6 +27,42 @@ const serverName = "localhost:3003";
 const serverURL = "http://"+serverName;
 
 function main() {
+    function makeid() {
+        let result = '';
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_+-*/=!@#$%^&()[]{}|;:,.<>?';
+        for (let i = 0; i < 64; i++) result += characters.charAt(Math.floor(Math.random() * characters.length));
+        return result;
+    }
+
+    cookie_name = "archiapp_user";
+    function setCookie(name) {
+        var d = new Date();
+        d.setTime(d.getTime() + (100*24*60*60*1000)); // 100 days
+        var expires = "expires="+ d.toUTCString();
+        document.cookie = cookie_name + "id=" + makeid() + ";" + expires + ";path=/";
+        document.cookie = cookie_name + "name=" + name + ";" + expires + ";path=/";
+    }
+    
+    function getCookie(field) {
+        var decodedCookie = decodeURIComponent(document.cookie);
+        var ca = decodedCookie.split(';');
+        for(var i = 0; i <ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') c = c.substring(1);
+            if (c.indexOf(cookie_name+field+"=") == 0) return c.substring(cookie_name.length+1, c.length);
+        }
+        return "";
+    }
+
+    var userid = getCookie("id");
+    if (userid != "") {
+        alert("Welcome again " + getCookie("name"));
+    } else {
+        username = prompt("Welcome! First time ? Please enter your username:", "");
+        if (username == "" || username == null) alert("Welcome, anonymous user!");
+        else setCookie(username);
+    }
+
     function update() {
         msgs = fetch(serverURL+'/msg/getAll')
         .then(function(response) {

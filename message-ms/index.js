@@ -18,12 +18,17 @@ app.use(function(_, res, next) {
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
+var users = {
+    "0": "Anonymous"
+};
 var allMsgs = [
     {
+        uid: "0",
         message: "Hello World", 
         date: new Date().toUTCString()
     },
     {
+        uid: "0",
         message: "CentraleSupelec Forever",
         date: new Date().toUTCString()
     }
