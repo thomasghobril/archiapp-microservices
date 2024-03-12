@@ -18,6 +18,7 @@
   "homepage": "https://github.com/thomasghobril/archiapp-microservices#readme",
   "dependencies": {
     "body-parser": "^1.20.2",
-    "express": "^4.18.3"
+    "express": "^4.18.3",
+    "ws": "^8.16.0"
   }
 }

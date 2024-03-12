@@ -1,9 +1,14 @@
 // Import the Express module
 const express = require('express');
-const bodyParser = require('body-parser')
+const http = require('http');
+const bodyParser = require('body-parser');
+const WebSocket = require('ws');
 
 // Create an instance of the Express application
 const app = express();
+const port = 3003;
+const server = http.createServer(app);
+const wss = new WebSocket.Server({ server });
 
 app.use(function(_, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -15,24 +20,39 @@ app.use(bodyParser.urlencoded({ extended: false }))
 
 var allMsgs = ["Hello World", "foobar", "CentraleSupelec Forever"];
 
+wss.on('connection', function(ws) {
+    console.log("New websocket connection");
+    wss.on('message', function(message) {
+        console.log('received: %s', message);
+    });
+});
+
 app.post('/msg/post', function (req, res) {
     const body = req.body;
 
     if (body["content"] == "") {
         res.json({code: 0, detail: "Error: empty message"});
+        return;
     }
 
     allMsgs.push(body["content"]);
+    wss.clients.forEach(function each(client) {
+        if (client.readyState === WebSocket.OPEN) {
+            client.send("Message list updated!");
+        }
+    });
     res.json({code: 1});
 });
 
 app.get('/msg/get/*', function(req, res) {
     var id = req.url.substring(9);
-    if (!isNaN(id) && parseInt(id) < allMsgs.length) {
-        res.json({"code": 1, "msg": allMsgs[parseInt(id)]});
-    } else {
+
+    if (isNaN(id) || parseInt(id) >= allMsgs.length) {
         res.json({"code": 0});
+        return;
     }
+    
+    res.json({"code": 1, "msg": allMsgs[parseInt(id)]});
 });
 
 app.get('/msg/getAll', function (_, res) {
@@ -64,7 +84,6 @@ app.get('/msg/del/*', function (req, res) {
 })
 
 // Start the server
-const PORT = process.env.PORT || 3003;
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+server.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
 });

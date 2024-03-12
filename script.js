@@ -22,8 +22,12 @@ function applique(f, tab) {
 console.log(applique(fact,[1, 2, 3, 4, 5]));
 console.log(applique(x => x + 1, [1, 2, 3, 4, 5]));
 
+// const serverName = "localhost:3003";
+const serverName = "https://archiapp-message-ms.onrender.com";
+const serverURL = "http://"+serverName;
+
 function update() {
-    msgs = fetch('https://archiapp-message-ms.onrender.com/msg/getAll')
+    msgs = fetch(serverURL+'/msg/getAll')
     .then(function(response) {
         return response.json();
     })
@@ -44,22 +48,25 @@ function update() {
 
 window.onload = update;
 
-const webSocket = new WebSocket(url);
+const websocketURL = "ws://"+serverName;
+const webSocket = new WebSocket(websocketURL);
 webSocket.onmessage = update
 
 const updateButton = document.getElementById('update');
 updateButton.onclick = update;
 
 function send() {
-    var ta = document.getElementById('messageInput')
-    fetch('https://archiapp-message-ms.onrender.com/msg/post', {
+    var ta = document.getElementById('messageInput');
+    if (ta.value == "") return;
+
+    fetch(serverURL+'/msg/post', {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
-        body: {
-            content: ta.value
-        }
+        body: JSON.stringify({
+            "content": ta.value
+        })
     })
     .then(function(response) {
         return response.json();
