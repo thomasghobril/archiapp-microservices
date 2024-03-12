@@ -49,7 +49,13 @@ updateButton.onclick = update;
 
 function send() {
     var ta = document.getElementById('messageInput')
-    fetch('https://archiapp-message-ms.onrender.com/msg/post/'+ta.value)
+    fetch('https://archiapp-message-ms.onrender.com/msg/post', {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: ta.value
+    })
     .then(function(response) {
         return response.json();
     })

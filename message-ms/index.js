@@ -12,9 +12,14 @@ app.use(function(_, res, next) {
 
 var allMsgs = ["Hello World", "foobar", "CentraleSupelec Forever"];
 
-app.get('/msg/post/*', function (req, res) {
-    const msg = req.url.substring(10);
-    allMsgs.push(msg);
+app.post('/msg/post', function (req, res) {
+    const body = req.body.content;
+
+    if (body.content == "") {
+        res.json({code: 0, detail: "Error: empty message"});
+    }
+
+    allMsgs.push(body.content);
     res.json({code: 1});
 });
 
