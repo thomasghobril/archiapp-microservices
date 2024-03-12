@@ -42,10 +42,7 @@ function main() {
         d.setTime(d.getTime() + (100*24*60*60*1000)); // 100 days
         var expires = "expires="+ d.toUTCString();
         document.cookie = cookie_name + "id=" + makeid() + ";" + expires + ";path=/";
-        document.cookie = "test=ok;expires=Thu, 01 Jan 2025 00:00:00 UTC;domain=;path=/;";
-        console.log(cookie_name + "id=" + makeid() + ";" + expires + ";path=/");
         document.cookie = cookie_name + "name=" + name + ";" + expires + ";path=/";
-        console.log(cookie_name + "name=" + name + ";" + expires + ";path=/");
     }
     
     function getCookie(field) {
