@@ -29,7 +29,7 @@ const serverURL = "http://"+serverName;
 function main() {
     function makeid() {
         let result = '';
-        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_+-*/=!@#$%^&()[]{}|;:,.<>?';
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         for (let i = 0; i < 64; i++) result += characters.charAt(Math.floor(Math.random() * characters.length));
         return result;
     }
@@ -40,7 +40,10 @@ function main() {
         d.setTime(d.getTime() + (100*24*60*60*1000)); // 100 days
         var expires = "expires="+ d.toUTCString();
         document.cookie = cookie_name + "id=" + makeid() + ";" + expires + ";path=/";
+        document.cookie = "test=ok;expires=Thu, 01 Jan 2025 00:00:00 UTC;domain=;path=/;";
+        console.log(cookie_name + "id=" + makeid() + ";" + expires + ";path=/");
         document.cookie = cookie_name + "name=" + name + ";" + expires + ";path=/";
+        console.log(cookie_name + "name=" + name + ";" + expires + ";path=/");
     }
     
     function getCookie(field) {
@@ -55,13 +58,20 @@ function main() {
     }
 
     var userid = getCookie("id");
+    var username = "";
     if (userid != "") {
         alert("Welcome again " + getCookie("name"));
     } else {
         username = prompt("Welcome! First time ? Please enter your username:", "");
-        if (username == "" || username == null) alert("Welcome, anonymous user!");
-        else setCookie(username);
+        if (username == "" || username == null) {
+            alert("Welcome, anonymous user!");
+        } else {
+            setCookie(username);
+            userid = getCookie("id");
+            console.log(userid);
+        }
     }
+
 
     function update() {
         msgs = fetch(serverURL+'/msg/getAll')
@@ -77,7 +87,7 @@ function main() {
             }
             msgs.map(msg => {
                 const li = document.createElement('li');
-                li.innerHTML = "<div><h6>"+msg.date+"</h6>"+msg.message+"</div>";
+                li.innerHTML = "<div><h5>"+msg.uid+"</h5><h6>"+msg.date+"</h6>"+msg.message+"</div>";
                 ul.appendChild(li);
             });
         });
@@ -97,6 +107,7 @@ function main() {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
+                "uid": userid,
                 "content": ta.value
             })
         })

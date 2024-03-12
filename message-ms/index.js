@@ -19,16 +19,16 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
 var users = {
-    "0": "Anonymous"
+    "": "Anonymous"
 };
 var allMsgs = [
     {
-        uid: "0",
+        uid: "",
         message: "Hello World", 
         date: new Date().toUTCString()
     },
     {
-        uid: "0",
+        uid: "",
         message: "CentraleSupelec Forever",
         date: new Date().toUTCString()
     }
@@ -48,8 +48,9 @@ app.post('/msg/post', function (req, res) {
         res.json({code: 0, detail: "Error: empty message"});
         return;
     }
-
+    console.log(body);
     allMsgs.push({
+        uid: body["uid"],
         message: body["content"],
         date: new Date().toUTCString()
     });
