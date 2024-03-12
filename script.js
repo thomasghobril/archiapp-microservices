@@ -23,7 +23,7 @@ console.log(applique(fact,[1, 2, 3, 4, 5]));
 console.log(applique(x => x + 1, [1, 2, 3, 4, 5]));
 
 function update() {
-    msgs = fetch('http://localhost:3003/msg/getAll')
+    msgs = fetch('https://archiapp-message-ms.onrender.com/msg/getAll')
     .then(function(response) {
         return response.json();
     })
@@ -49,7 +49,7 @@ updateButton.onclick = update;
 
 function send() {
     var ta = document.getElementById('messageInput')
-    fetch('http://localhost:3003/msg/post/'+ta.value)
+    fetch('https://archiapp-message-ms.onrender.com/msg/post/'+ta.value)
     .then(function(response) {
         return response.json();
     })
