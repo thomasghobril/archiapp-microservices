@@ -22,8 +22,8 @@
 // console.log(applique(fact,[1, 2, 3, 4, 5]));
 // console.log(applique(x => x + 1, [1, 2, 3, 4, 5]));
 
-const serverName = "localhost:3003";
-// const serverName = "https://archiapp-message-ms.onrender.com";
+// const serverName = "localhost:3003";
+const serverName = "https://archiapp-message-ms.onrender.com";
 const serverURL = "http://"+serverName;
 
 function main() {
