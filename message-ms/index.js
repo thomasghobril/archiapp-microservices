@@ -7,13 +7,13 @@ const app = express();
 var allMsgs = ["Hello World", "foobar", "CentraleSupelec Forever"];
 
 app.get('/msg/post/*', function (req, res) {
-    const msg = req.substring(10);
-    allMsg.push(msg);
+    const msg = req.url.substring(10);
+    allMsgs.push(msg);
     res.json({code: 1});
 });
 
 app.get('/msg/get/*', function(req, res) {
-    var id = req.url.substring(req.url.lastIndexOf('/')+1);
+    var id = req.url.substring(9);
     if (!isNaN(id) && parseInt(id) < allMsgs.length) {
         res.json({"code": 1, "msg": allMsgs[parseInt(id)]});
     } else {
@@ -22,16 +22,16 @@ app.get('/msg/get/*', function(req, res) {
 });
 
 app.get('/msg/getAll', function (_, res) {
-    res.json({code: 1, allMsg});
+    res.json({code: 1, allMsgs});
 });
 
 app.get('/msg/nber', function (_, res) {
-    const count = allMsg.length();
+    const count = allMsgs.length;
     res.json({code: 1, count});
 });
 
-app.get('/msg/del/*', function (_, res) {
-    const arg = req.substring(9);
+app.get('/msg/del/*', function (req, res) {
+    const arg = req.url.substring(9);
 
     if (isNaN(arg)) {
         res.json({code: 0, detail: "Error: the message number could not be parsed"});
@@ -40,7 +40,7 @@ app.get('/msg/del/*', function (_, res) {
 
     const id = parseInt(arg);
 
-    if (allMsgs.length() <= id) {
+    if (allMsgs.length <= id) {
         res.json({code: 0, detail: "Error: the provided message id does not exist"});
         return;
     }
