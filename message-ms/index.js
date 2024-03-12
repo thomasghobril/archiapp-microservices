@@ -13,7 +13,7 @@ app.use(function(_, res, next) {
 var allMsgs = ["Hello World", "foobar", "CentraleSupelec Forever"];
 
 app.post('/msg/post', function (req, res) {
-    const body = req.body.content;
+    const body = req.body.json();
 
     if (body.content == "") {
         res.json({code: 0, detail: "Error: empty message"});

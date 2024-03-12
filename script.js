@@ -54,7 +54,9 @@ function send() {
         headers: {
             "Content-Type": "application/json"
         },
-        body: ta.value
+        body: {
+            content: ta.value
+        }
     })
     .then(function(response) {
         return response.json();
