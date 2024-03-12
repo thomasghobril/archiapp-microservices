@@ -4,6 +4,12 @@ const express = require('express');
 // Create an instance of the Express application
 const app = express();
 
+app.use(function(_, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
+
 var allMsgs = ["Hello World", "foobar", "CentraleSupelec Forever"];
 
 app.get('/msg/post/*', function (req, res) {

@@ -22,23 +22,26 @@ function applique(f, tab) {
 console.log(applique(fact,[1, 2, 3, 4, 5]));
 console.log(applique(x => x + 1, [1, 2, 3, 4, 5]));
 
-var msgs = [
-    { "msg" : "Hello World" },
-    { "msg" : "Blah Blah" },
-    { "msg" : "I love cats" }
-];
-
-function update(msgs) {
-    const ul = document.getElementById('messages');
-    while (ul.firstChild) {
-        ul.removeChild(ul.firstChild);
-    }
-    applique(msg => {
-        const li = document.createElement('li');
-        li.textContent = msg.msg;
-        ul.appendChild(li);
-    }, msgs);
+function update() {
+    msgs = fetch('http://localhost:3003/msg/getAll')
+    .then(function(response) {
+        return response.json();
+    })
+    .then(function(data) {
+        return data.allMsgs;
+    }).then(function(msgs) {
+            const ul = document.getElementById('messages');
+            while (ul.firstChild) {
+                ul.removeChild(ul.firstChild);
+            }
+            applique(msg => {
+                const li = document.createElement('li');
+                li.textContent = msg;
+                ul.appendChild(li);
+            }, msgs);
+        }
+    );
 }
 
 const button = document.getElementById('send');
-button.onclick = () => update(msgs);
+button.onclick = update;
