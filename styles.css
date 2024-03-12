@@ -55,3 +55,14 @@ button {
 button:hover {
     background-color: #0056b3;
 }
+
+h5 {
+    margin: 5px;
+    color: #1f87ef;
+}
+
+h6 {
+    margin: 5px;
+    font-weight: bold;
+    color: #3333ee;
+}

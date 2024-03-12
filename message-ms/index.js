@@ -18,7 +18,7 @@ app.use(function(_, res, next) {
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
-var allMsgs = ["Hello World", "foobar", "CentraleSupelec Forever"];
+var allMsgs = [["Hello World", new Date().toUTCString()], ["CentraleSupelec Forever", new Date().toUTCString()]];
 
 wss.on('connection', function(ws) {
     console.log("New websocket connection");
@@ -35,7 +35,7 @@ app.post('/msg/post', function (req, res) {
         return;
     }
 
-    allMsgs.push(body["content"]);
+    allMsgs.push([body["content"], new Date().toUTCString()]);
     wss.clients.forEach(function each(client) {
         if (client.readyState === WebSocket.OPEN) {
             client.send("Message list updated!");
