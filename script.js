@@ -24,9 +24,11 @@
 
 // const serverName = "localhost:3003";
 // const serverURL = "http://"+serverName;
+// const websocketURL = "ws://"+serverName;
 
 const serverName = "archiapp-message-ms.onrender.com";
 const serverURL = "https://"+serverName;
+const websocketURL = "wss://"+serverName;
 
 function main() {
     function makeid() {
@@ -92,7 +94,6 @@ function main() {
         });
     }
     
-    const websocketURL = "ws://"+serverName;
     const webSocket = new WebSocket(websocketURL);
     webSocket.onmessage = update
 
