@@ -44,6 +44,9 @@ function update() {
 
 window.onload = update;
 
+const webSocket = new WebSocket(url);
+webSocket.onmessage = update
+
 const updateButton = document.getElementById('update');
 updateButton.onclick = update;
 
