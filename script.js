@@ -25,10 +25,14 @@
 // const serverName = "localhost:3003";
 // const serverURL = "http://"+serverName;
 // const websocketURL = "ws://"+serverName;
+const usernameServer = "localhost:3006";
+const usernameServerURL = "http://"+usernameServer;
 
 const serverName = "archiapp-message-ms.onrender.com";
 const serverURL = "https://"+serverName;
 const websocketURL = "wss://"+serverName;
+// const usernameServer = "localhost:3006";
+// const usernameServerURL = "http://"+usernameServer;
 
 function main() {
     function makeid() {
@@ -59,9 +63,9 @@ function main() {
     }
 
     var userid = getCookie("id");
-    var username = "";
+    var username = getCookie("name");
     if (userid != "") {
-        alert("Welcome again " + getCookie("name"));
+        alert("Welcome again " + username);
     } else {
         username = prompt("Welcome! First time ? Please enter your username:", "");
         if (username == "" || username == null) {
@@ -80,16 +84,21 @@ function main() {
             return response.json();
         })
         .then(function(data) {
-            return data.allMsgs;
-        }).then(function(msgs) {
-            const ul = document.getElementById('messages');
-            while (ul.firstChild) {
-                ul.removeChild(ul.firstChild);
-            }
-            msgs.map(msg => {
-                const li = document.createElement('li');
-                li.innerHTML = "<div><h5>"+msg.uid+"</h5><h6>"+msg.date+"</h6>"+msg.message+"</div>";
-                ul.appendChild(li);
+            const msgs = data.allMsgs;
+            fetch(usernameServerURL+'/usr/getAll').then(function(response) {
+                return response.json();
+            })
+            .then(function(data) {
+                const users = data.users;
+                const ul = document.getElementById('messages');
+                while (ul.firstChild) {
+                    ul.removeChild(ul.firstChild);
+                }
+                msgs.map(msg => {
+                    const li = document.createElement('li');
+                    li.innerHTML = "<div><h5>"+users[msg.uid]+"</h5><h6>"+msg.date+"</h6>"+msg.message+"</div>";
+                    ul.appendChild(li);
+                });
             });
         });
     }
@@ -108,6 +117,7 @@ function main() {
             },
             body: JSON.stringify({
                 "uid": userid,
+                "username": username,
                 "content": ta.value
             })
         })

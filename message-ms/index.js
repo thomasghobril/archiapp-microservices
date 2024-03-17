@@ -9,6 +9,8 @@ const app = express();
 const port = 3003;
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
+const usernameServer = "localhost:3006";
+const usernameServerURL = "http://"+usernameServer;
 
 app.use(function(_, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -18,9 +20,6 @@ app.use(function(_, res, next) {
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
-var users = {
-    "": "Anonymous"
-};
 var allMsgs = [
     {
         uid: "",
@@ -49,6 +48,16 @@ app.post('/msg/post', function (req, res) {
         return;
     }
     console.log(body);
+    fetch(usernameServerURL+'/usr/update', {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            "user": body["uid"],
+            "username": body["username"]
+        })
+    });
     allMsgs.push({
         uid: body["uid"],
         message: body["content"],
