@@ -9,8 +9,10 @@ const app = express();
 const port = 3003;
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
-const usernameServer = "localhost:3006";
-const usernameServerURL = "http://"+usernameServer;
+// const usernameServer = "localhost:3006";
+// const usernameServerURL = "http://"+usernameServer;
+const usernameServer = "archiapp-users-ms.onrender.com";
+const usernameServerURL = "https://"+usernameServer;
 
 app.use(function(_, res, next) {
     res.header("Access-Control-Allow-Origin", "*");

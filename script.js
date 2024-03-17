@@ -25,14 +25,14 @@
 // const serverName = "localhost:3003";
 // const serverURL = "http://"+serverName;
 // const websocketURL = "ws://"+serverName;
-const usernameServer = "localhost:3006";
-const usernameServerURL = "http://"+usernameServer;
+// const usernameServer = "localhost:3006";
+// const usernameServerURL = "http://"+usernameServer;
 
 const serverName = "archiapp-message-ms.onrender.com";
 const serverURL = "https://"+serverName;
 const websocketURL = "wss://"+serverName;
-// const usernameServer = "localhost:3006";
-// const usernameServerURL = "http://"+usernameServer;
+const usernameServer = "archiapp-users-ms.onrender.com";
+const usernameServerURL = "https://"+usernameServer;
 
 function main() {
     function makeid() {
