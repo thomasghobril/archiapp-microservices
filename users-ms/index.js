@@ -1,11 +1,10 @@
 // Import the Express module
 const express = require('express');
-const http = require('http');
 const bodyParser = require('body-parser');
 
 // Create an instance of the Express application
 const app = express();
-const port = 3006;
+const port = 3000;
 
 app.use(function(_, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
